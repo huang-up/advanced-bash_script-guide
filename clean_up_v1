@@ -1,0 +1,15 @@
+#!/bin/bash
+# cleanup
+# 当然要使用root身份来运行这个脚本
+
+cd /Users/h/test/
+
+cat /dev/null > messages
+cat /dev/null > wtmp
+
+echo "Logs cleaned up"
+
+# 这个脚本没什么稀奇，只不过是命令的堆积，来让从console或者xterm中
+# 一个一个的输入命令更方便一些。好处就是把所有命令放在一个脚本中，
+# 不用每次都敲它们。这样的话，对于特定的应用来说，
+# 这个脚本就很容易被修改或定制。
