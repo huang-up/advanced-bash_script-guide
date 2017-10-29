@@ -1,0 +1,41 @@
+#!/bin/bash
+
+#1 #注释，行首以 # 开头为注释(#!是个例外)
+
+# this line is a comment
+
+echo "a comment will follow"  # 注释在这里，注意#前的空格
+
+
+
+
+#2 在echo命令中被转义的#是不能作为注释的
+
+echo "the # here does not begin a comment"
+
+echo 'the # here does not begin a comment'
+
+echo the \# here does not begin a comment
+
+echo the # 这里开始一个注释
+
+
+
+#3 #也可以出现在特定的参数替换结构中或者是数字常量表达式中
+
+# 删除从左到右第一个":"和其左侧的字符串
+echo ${PATH#*:} # 参数替换，不是一个注释
+# 删除从左到右最后一个":"和其左侧的字符串
+echo ${PATH##*:}
+
+# 删除从右到左第一个":"和其右侧的字符串
+echo ${PATH%:*}
+# 删除从右到左最后一个":"和其右侧的字符串
+echo ${PATH%%:*}
+
+echo $((2#101011)) #数制替换，不是一个注释
+
+# #是从左向右匹配 %是从右向左匹配
+# #是最短匹配 ##是最长匹配
+# %是最短匹配 %%是最长匹配
+

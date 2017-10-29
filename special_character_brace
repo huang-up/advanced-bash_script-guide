@@ -1,0 +1,44 @@
+#!/bin/bash
+
+#1 大括号扩展，如：
+# cat {file1,file2,file3} > combined_file
+# 把file1,file2,file3连接在一起，并且重定向到combined_file中
+# cp file22.{txt,backup}
+# 拷贝"file22.txt"到"file22.backup"中
+
+
+/Users/h/IdeaProjects/advanced-bash_script-guide 
+#2 一个命令可能会对大括号中的以逗号分割的文件列表起作用。
+# file globbing将对大括号中的文件名作扩展
+# 注意：在大括号中，不允许有空白，除非这个空白是有意义的
+echo {file1,file2}\:{\A,"B",'C'}
+
+
+
+#3 代码块，又被称为内部组。事实上，这个结构创建了一个匿名的函数。
+# 但是与函数不同的是，在其中声明的变量，对于脚本其他部分的代码来说还是可见的。
+# 如
+a=123
+{ a=321; }
+echo "a = $a" # a = 321 说明在代码块中对变量a所做的修改，影响了外边的变量a
+
+
+
+#4 {}\; 路径名。一般都在find命令中使用。这不是一个shell内建命令
+# 注意: ";"用来结束find命令序列的-exec选项
+
+File=/etc/fstab.hd
+{
+read line1
+read line2
+} < $File
+
+echo "First line in $File is:"
+echo "$line1"
+echo
+echo "Second line in $File is:"
+echo "$line2"
+
+exit 0
+
+

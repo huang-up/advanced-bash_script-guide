@@ -1,0 +1,63 @@
+#!/bin/bash
+
+#1 :空命令，等价于"NOP"(no op,一个什么也不干的命令)，也可以认为于shell的内建命令(true)作用相同
+# ":"命令是bash的内建命令，它的返回值为0，就是shell返回的true
+
+# 如
+
+# 死循环
+while : # :等价于true
+do 
+	echo "$JCMD"
+done
+
+# 与下边相同
+# while true
+# do
+# 	...
+# done
+
+
+if true
+then : # 空命令，什么都不做，引出分支
+else
+	echo "take-some-action"
+fi
+
+
+
+#2 :在一个2元命令中提供一个占位符
+:${username = `whoami`}
+# ${username = `whoami`} 如果没有":"的话，将给出一个错误，除非"username"是个命令
+
+
+
+#3 使用"参数替换"来评估字符串变量，如：
+:${HOSTNAME?}${USER?}${MAIL?}
+# 如果一个或者多个环境变量没有被设置的话，就打印错误信息
+
+
+
+#4 变量扩展／子串替换
+# 在和>（重定向操作符）结合使用时，把一个文件截断到0长度，没有修改它的权限
+# 如果文件在之前并不存在，那么就创建它。如：
+: > /Users/h/test/data.txt # 文件 data.txt 现在被清空了
+
+# 与 cat /dev/null > data.txt 的作用相同
+# 然而，这不会产生一个新的进程，因为":"是一个内建命令
+
+# 在和 >> 重定向操作符结合使用时，将不会对想要附加的文件产生任何影响
+# 如果文件不存在，将创建
+
+# 这只适用于正规文件，而不是管道，符号连接，和某些特殊文件
+
+
+
+#5 作为注释行，但是不推荐这样做。
+
+
+
+#6 在 /etc/passwd 和 $PATH 变量中用来做分隔符
+echo $PATH
+# /usr/local/bin:/bin/:usr/X11R6/bin:/sbin:/usr/sbin/
+

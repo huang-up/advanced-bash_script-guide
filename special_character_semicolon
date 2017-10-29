@@ -1,0 +1,14 @@
+#!/bin/bash
+
+#1 ;命令分隔符，可以用来在一行中来写多个命令
+
+echo hello; echo there
+
+
+
+#2 ";;"终止case选项
+variable=abc
+case "$variable" in
+abc) echo "\$variable = abc";;
+xyz) echo "\$variable = xyz";;
+esac
