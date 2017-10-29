@@ -1,0 +1,57 @@
+#!/bin/bash
+# 每个脚本开头都使用 "#!"，这意味着告诉你的系统这个文件的执行需要指定一个解释器
+# #! 实际上是一个2字节的魔法数字，这是指定一个文件类型的特殊标记
+# 换句话说，在这种情况下，指的就是一个可执行的脚本
+# 在 #! 之后接着是一个是一个路径名，这个路径名指定了一个解释脚本中命令的程序
+# 这个程序可以是 shell，程序语言或者是任意一个通用程序
+# 这个指定的程序从头开始解释并且执行脚本中的命令(从 #! 行下边的一行开始)，忽略注释
+# 如 #!/bin/sh #!/bin/bash #!/usr/bin/perl #!/use/bin/tcl #!/bin/sed -f #!/usr/awk -f
+# 如果是 /bin/sh ，那么就是默认shell (在Linux系统中默认是Bash)
+
+
+LOG_DIR=/Users/h/test
+ROOT_UID=0 # 只有$UID=0的时候，用户才具有root的权限
+LINES=50 # 默认的保存行数
+E_XCD=86 # 不能修改目录
+E_NOTROOT=87 # 非root用户将以error退出
+
+# 当然要使用root用户来运行
+if [ "$UID" -ne "$ROOT_UID" ]
+then
+	echo "Must be root to run this scripts"
+	exit $E_NOTROOT
+fi
+
+# 测试是否有命令行参数(非空)
+if [ -n "$1" ]
+then 
+	lines=$1
+else
+        lines=$LINES
+fi
+
+
+cd $LOG_DIR
+
+# 在处理 log file 之前，再确认一遍当前目录是否正确
+if [ `pwd` != "$LOG_DIR" ] # 或者 if [ "PWD" != "$LOG_DIR" ]
+then
+	echo "Can't change to $LOG_DIR."
+	exit $E_XCD
+fi
+
+# 更有效的做法是
+# cd /var/log || {echo "Cannot change to necessary directory." > &2 exit $E_XCD;}
+
+# 保存 log file 消息的最后部分
+tail -$lines messages > mesg.temp
+rm -f messages
+# 变为新的 log 目录
+mv mesg.temp messgaes
+
+# 不再需要 cat /dev/unll > messages 了，使用上边的方法刚安全
+
+echo "Logs cleaned up."
+
+# 退出之前返回0，返回0表示成功
+exit 0
