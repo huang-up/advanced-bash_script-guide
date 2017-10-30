@@ -1,0 +1,29 @@
+#!/bin/bash
+
+#1 管道，分析前面命令的输出，并将输出作为后边命令的输入。
+# 这是一种产生命令链的好方法
+
+echo ls -l | sh
+# 传递 "echo ls -l"的输出到shell中
+# 与一个简单的"ls -l"结果相同
+
+cat /Users/h/test/*.txt | sort | uniq
+# 合并和排序所有的".lst"文件，然后删除所有重复的行
+
+# 管道是进程间通讯的一个典型办法，讲一个进程的stdout放到另一个进程的stdin中。
+# 标准的方法是将一个一般命令的输出，比如cat或echo，传递到一个过滤命令中
+# (在这个过滤命令中将处理输入)，得到结果，如：
+filename1=/Users/h/test/data.txt
+search_word=abcd
+cat $filename1 | grep $search_word
+
+# 注意：管道中的一个进程的stdout必须被下一个进程作为stdin读入。
+# 否则，数据会阻塞，并且管道将产生非预期的行为，如：
+# cat file1 file2 | ls -l | sort
+# 从"cat file1 file2"中的输出并没有出现
+
+
+# 如果管道中的某个命令产生了一个异常，并中途失败，那么这个管道将过早的种植。
+# 这种行为被叫做a broken pipe，并且这种状态下将发送一个sigpipe信号
+
+# 见 uppercase 和 lowercase
