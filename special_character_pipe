@@ -27,3 +27,6 @@ cat $filename1 | grep $search_word
 # 这种行为被叫做a broken pipe，并且这种状态下将发送一个sigpipe信号
 
 # 见 uppercase 和 lowercase
+
+
+#2 || 或逻辑操作
